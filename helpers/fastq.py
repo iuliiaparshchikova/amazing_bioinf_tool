@@ -24,6 +24,7 @@ def make_output_path(output_fastq, folder="filtered"):
     """
     os.makedirs(folder, exist_ok=True)
     path = os.path.join(folder, output_fastq)
+    open(path, "w").close()
     return path
 
 
@@ -55,12 +56,12 @@ def length(seq, length_bounds):
     """
     Check if length is okay
     """
-    if isinstance(bounds, tuple):
-        low_bound = bounds[0]
-        high_bound = bounds[1]
+    if isinstance(length_bounds, tuple):
+        low_bound = length_bounds[0]
+        high_bound = length_bounds[1]
     else:
         low_bound = 0
-        high_bound = bounds
+        high_bound = length_bounds
     return low_bound <= len(seq) <= high_bound
 
 
@@ -69,6 +70,7 @@ def quality(qual, quality_threshold):
     Check if quality is okay
     """
     mean_qual = 0
+    total = 0
     for i in qual:
         total += ord(i) - 33
     mean_qual = total / len(qual)
